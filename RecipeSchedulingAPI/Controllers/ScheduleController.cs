@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using RecipeSchedulingAPI.Models;
 using RecipeSchedulingAPI.Services;
@@ -33,7 +34,8 @@ public class ScheduleController
             // REMARK: Could add more detail to the error here to make monitoring easier.
             _logger.LogError($"API request to fetch recipe failed: {response.ReasonPhrase}");
         }
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        
+        var recipes = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
 
         return _schedulingService.CreateSchedule(new Recipe());
     }

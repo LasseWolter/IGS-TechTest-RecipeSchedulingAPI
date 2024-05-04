@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace RecipeSchedulingAPI.Models;
 
-public class InputData
+public class RecipeRequestList
 {
     [JsonPropertyName("input")]
-    public List<InputEntry> Input { get; set; }
+    public List<RecipeRequest> RecipeRequests { get; set; }
 }

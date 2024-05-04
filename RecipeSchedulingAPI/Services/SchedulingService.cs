@@ -7,33 +7,27 @@ namespace RecipeSchedulingAPI.Services;
 
 public class SchedulingService : ISchedulingService
 {
-    public Schedule CreateSchedule(Recipe recipe)
+    private readonly ILogger<SchedulingService> _logger;
+
+    public SchedulingService(ILogger<SchedulingService> logger)
     {
-        var rawJsonString = """
-                            {
-                              "input": [
-                                {
-                                  "trayNumber": 1,
-                                  "recipeName": "Basil",
-                                  "startDate": "2022-01-24T12:30:00.0000000Z"
-                                },
-                                {
-                                  "trayNumber": 2,
-                                  "recipeName": "Strawberries",
-                                  "startDate": "2021-13-08T17:33:00.0000000Z"
-                                },
-                                {
-                                  "trayNumber": 3,
-                                  "recipeName": "Basil",
-                                  "startDate": "2030-01-01T23:45:00.0000000Z"
-                                }
-                              ]
-                            }
-                            """;
-        InputData inputData = JsonSerializer.Deserialize<InputData>(rawJsonString);
+        _logger = logger;
+    }
+
+    public Schedule? CreateSchedule(RecipeRequest request, List<Recipe> recipes)
+    {
+        var matchedRecipes = recipes.FirstOrDefault(r => r.Name == request.RecipeName);
+        if (matchedRecipes == null)
+        {
+            _logger.LogWarning($"No matching recipe found for RecipeRequest: {request.RecipeName}");
+            return null;
+        }
+        
         Schedule schedule = new Schedule();
-        schedule.Events.Add(new Event(DateTime.UtcNow, CommandType.Water, waterAmount: 3));
-        schedule.Events.Add(new Event(DateTime.UtcNow, CommandType.Light, lightIntesnity: LightIntensity.High));
+        foreach (WateringPhase wateringPhase in matchedRecipes.WateringPhases)
+        {
+            schedule.Events.Add(new Event(DateTime.UtcNow, CommandType.Water, waterAmount: wateringPhase.Amount));
+        }
         return schedule;
     }
 }

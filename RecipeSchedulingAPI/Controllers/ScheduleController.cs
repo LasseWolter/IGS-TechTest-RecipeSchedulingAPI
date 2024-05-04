@@ -33,10 +33,49 @@ public class ScheduleController
         {
             // REMARK: Could add more detail to the error here to make monitoring easier.
             _logger.LogError($"API request to fetch recipe failed: {response.ReasonPhrase}");
+            // TODO: return error code
         }
-        
-        var recipes = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
 
-        return _schedulingService.CreateSchedule(new Recipe());
+        RecipeList? recipeList = null;
+        try
+        {
+            recipeList = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
+        }
+        catch(Exception e)
+        {
+            _logger.LogError($"Error deserialising recipe response: {e}");
+            // TODO: return error code
+        }
+
+        if (recipeList == null)
+        {  
+            _logger.LogError($"Recipe list is null.");
+            // TODO: return error code
+        }
+
+        var recipeRequestStringRaw = """
+                                     {
+                                       "input": [
+                                         {
+                                           "trayNumber": 1,
+                                           "recipeName": "Basil",
+                                           "startDate": "2022-01-24T12:30:00.0000000Z"
+                                         },
+                                         {
+                                           "trayNumber": 2,
+                                           "recipeName": "Strawberries",
+                                           "startDate": "2021-13-08T17:33:00.0000000Z"
+                                         },
+                                         {
+                                           "trayNumber": 3,
+                                           "recipeName": "Basil",
+                                           "startDate": "2030-01-01T23:45:00.0000000Z"
+                                         }
+                                       ]
+                                     }
+                                     """;
+        RecipeRequestList recipeRequestList = JsonSerializer.Deserialize<RecipeRequestList>(recipeRequestStringRaw);
+
+        return _schedulingService.CreateSchedule(recipeRequestList.RecipeRequests[0], recipeList!.Recipes);
     }
 }

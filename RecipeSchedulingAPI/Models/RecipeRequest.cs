@@ -3,11 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace RecipeSchedulingAPI.Models;
 
-public class InputEntry
+public class RecipeRequest
 {
-    [JsonPropertyName("trayNumber")] public int TrayNumber { get; set; }
+    [JsonPropertyName("trayNumber")]
+    public int TrayNumber { get; set; }
 
-    [JsonPropertyName("recipeName")] public string RecipeName { get; set; }
+    [JsonPropertyName("recipeName")]
+    public string RecipeName { get; set; }
 
     /// <summary>
     /// Raw date string that is sent to the API endpoint.

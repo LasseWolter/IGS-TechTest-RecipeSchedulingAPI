@@ -16,6 +16,13 @@ public class SchedulingService : ISchedulingService
 
     public Schedule? CreateSchedule(RecipeRequest request, List<Recipe> recipes)
     {
+        if (request.StartDate == null)
+        {
+            _logger.LogError("StartDate is null, can't create schedule.");
+            return null;
+        }
+        DateTime startDate = (DateTime)request.StartDate;
+        
         var matchedRecipes = recipes.FirstOrDefault(r => r.Name == request.RecipeName);
         if (matchedRecipes == null)
         {
@@ -24,9 +31,13 @@ public class SchedulingService : ISchedulingService
         }
         
         Schedule schedule = new Schedule();
+        
         foreach (WateringPhase wateringPhase in matchedRecipes.WateringPhases)
         {
-            schedule.Events.Add(new Event(DateTime.UtcNow, CommandType.Water, waterAmount: wateringPhase.Amount));
+            for (int i = 0; i < wateringPhase.Repetitions; i++)
+            {
+                schedule.Events.Add(new Event(startDate.AddHours(wateringPhase.Hours).AddMinutes(wateringPhase.Minutes), CommandType.Water, waterAmount: wateringPhase.Amount));
+            }
         }
         return schedule;
     }

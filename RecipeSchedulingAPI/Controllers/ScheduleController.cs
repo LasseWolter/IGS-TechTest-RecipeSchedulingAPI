@@ -10,9 +10,17 @@ namespace RecipeSchedulingAPI.Controllers;
 [Route("api/v1/schedule")]
 public class ScheduleController
 {
+    private readonly ILogger<ScheduleController> _logger;
+
+    public ScheduleController(ILogger<ScheduleController> logger)
+    {
+        _logger = logger;
+    }
+
     [HttpGet]
     public Schedule GetSchedule()
     {
+        _logger.LogDebug("GetSchedule entered.");
         var rawJsonString = """
                             {
                               "input": [

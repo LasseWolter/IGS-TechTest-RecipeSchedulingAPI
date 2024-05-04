@@ -6,7 +6,7 @@
 # Depending on the dev setup this file could contains sensitive information. I'd opt for not commiting it to source control. 
 # * for production: defo use secret management
 # * for dev: ideally use secret managment. at least keep settings local and NEVER commit sensitive configs  
-./RecipeScheduleAPI/appsettings.Development.json
+RecipeSchedulingAPI/appsettings.Development.json
 ## <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
 
 ## Ignore Visual Studio temporary files, build results, and

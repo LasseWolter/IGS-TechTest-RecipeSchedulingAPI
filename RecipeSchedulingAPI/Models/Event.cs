@@ -9,11 +9,11 @@ public class Event
     public int? WaterAmount { get; set; }
     public LightIntensity? LightIntensity { get; set; }
 
-    public Event(DateTime dateTimeUtc, CommandType commandType, int? waterAmount = null, LightIntensity? lightIntesnity = null)
+    public Event(DateTime dateTimeUtc, CommandType commandType, int? waterAmount = null, LightIntensity? lightIntensity = null)
     {
         DateTimeUtc = dateTimeUtc;
         CommandType = commandType;
         WaterAmount = waterAmount;
-        LightIntensity = lightIntesnity;
+        LightIntensity = lightIntensity;
     }
 }

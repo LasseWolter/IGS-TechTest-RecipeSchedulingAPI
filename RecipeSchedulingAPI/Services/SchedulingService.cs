@@ -49,8 +49,8 @@ public class SchedulingService : ISchedulingService
                 int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
                 foreach (Operation operation in lightingPhase.Operations)
                 {
-                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHourse * 60 + operation.OffsetMinutes;
-                    schedule.Events.Add(new Event(startDate.AddMinutes(operationOffsetInMinutes), CommandType.Light, lightIntesnity: operation.LightIntensity));
+                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
+                    schedule.Events.Add(new Event(startDate.AddMinutes(operationOffsetInMinutes), CommandType.Light, lightIntensity: operation.LightIntensity));
                 }
             }
         }

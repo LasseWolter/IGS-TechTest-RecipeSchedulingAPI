@@ -6,7 +6,7 @@ namespace RecipeSchedulingAPI.Models;
 public class Operation
 {
     [JsonPropertyName("offsetHours")]
-    public int OffsetHourse { get; set; }
+    public int OffsetHours { get; set; }
     
     [JsonPropertyName("offsetMinutes")]
     public int OffsetMinutes { get; set; }

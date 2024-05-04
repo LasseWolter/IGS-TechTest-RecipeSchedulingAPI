@@ -17,7 +17,7 @@ public class WateringPhase : IPhase
     [JsonPropertyName("minutes")]
     public int Minutes { get; set; }
     
-    [JsonPropertyName("repititions")]
+    [JsonPropertyName("repetitions")]
     public int Repetitions { get; set; }
     
     [JsonPropertyName("amount")]

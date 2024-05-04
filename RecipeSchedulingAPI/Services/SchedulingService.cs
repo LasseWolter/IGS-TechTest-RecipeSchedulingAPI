@@ -36,7 +36,8 @@ public class SchedulingService : ISchedulingService
         {
             for (int i = 0; i < wateringPhase.Repetitions; i++)
             {
-                schedule.Events.Add(new Event(startDate.AddHours(wateringPhase.Hours).AddMinutes(wateringPhase.Minutes), CommandType.Water, waterAmount: wateringPhase.Amount));
+                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
+                schedule.Events.Add(new Event(startDate.AddMinutes(timeOffsetMinutes), CommandType.Water, waterAmount: wateringPhase.Amount));
             }
         }
         return schedule;

@@ -18,9 +18,24 @@ public class ScheduleController
     }
 
     [HttpGet]
-    public Schedule GetSchedule()
+    public async Task<Schedule> GetSchedule()
     {
         _logger.LogDebug("GetSchedule entered.");
+        
+        // REMARK: Would be better to pass this in using DI
+        HttpClient httpClient = new HttpClient();
+        // REMARK: The domain where this enpoint is running should ideally be configured in appsettings.config such that 
+        // you only need to switch out the config to run this code in different environments.
+        var response = await httpClient.GetAsync("http://localhost:8080/recipe");
+
+        if (!response.IsSuccessStatusCode)
+        {
+          // REMARK: Could add more detail to the error here to make monitoring easier.
+          _logger.LogError($"API request to fetch recipe failed: {response.ReasonPhrase}");
+        }
+
+        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        
         var rawJsonString = """
                             {
                               "input": [

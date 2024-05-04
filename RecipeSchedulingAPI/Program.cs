@@ -1,6 +1,4 @@
-using System.Text.Json;
-using RecipeSchedulingAPI.Enums;
-using RecipeSchedulingAPI.Models;
+using RecipeSchedulingAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// TODO: Add DI
+builder.Services.AddScoped<SchedulingService>();
 builder.Services.AddControllers();
 builder.Logging.AddConsole();
 

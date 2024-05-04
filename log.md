@@ -25,3 +25,5 @@ This document outlines the steps I've taken to come up with/develop my solution.
   ]
 }
 ```
+* add json input data harcoded to the file
+* add models to parse the json object into

@@ -76,6 +76,6 @@ public class ScheduleController
                                      """;
         RecipeRequestList recipeRequestList = JsonSerializer.Deserialize<RecipeRequestList>(recipeRequestStringRaw);
 
-        return _schedulingService.CreateSchedule(recipeRequestList.RecipeRequests[0], recipeList!.Recipes);
+        return _schedulingService.CreateScheduleForListOfRequests(recipeRequestList.RecipeRequests, recipeList!.Recipes, ordered: true);
     }
 }

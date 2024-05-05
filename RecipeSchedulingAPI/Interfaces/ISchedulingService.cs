@@ -4,5 +4,6 @@ namespace RecipeSchedulingAPI.Interfaces;
 
 public interface ISchedulingService
 {
-   public Schedule? CreateSchedule(RecipeRequest request, List<Recipe> recipes);
+   public Schedule? CreateScheduleForSingleRequest(RecipeRequest request, List<Recipe> recipes, bool ordered);
+   public Schedule? CreateScheduleForListOfRequests(List<RecipeRequest> requests, List<Recipe> recipes, bool ordered);
 }

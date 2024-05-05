@@ -18,8 +18,9 @@ public class ScheduleController
         _schedulingService = schedulingService;
     }
 
-    [HttpGet]
-    public async Task<Schedule> GetSchedule()
+    [HttpPost]
+    // REMARK: Parsing the JSON using [FromBody] automatically return a 400 if the JSON is malformed.
+    public async Task<Schedule?> GetScheduleForListOfRequests([FromBody] RecipeRequestList recipeRequestList)
     {
         _logger.LogDebug("GetSchedule entered.");
 
@@ -52,30 +53,7 @@ public class ScheduleController
             _logger.LogError($"Recipe list is null.");
             // TODO: return error code
         }
-
-        var recipeRequestStringRaw = """
-                                     {
-                                       "input": [
-                                         {
-                                           "trayNumber": 1,
-                                           "recipeName": "Basil",
-                                           "startDate": "2022-01-24T12:30:00.0000000Z"
-                                         },
-                                         {
-                                           "trayNumber": 2,
-                                           "recipeName": "Strawberries",
-                                           "startDate": "2021-13-08T17:33:00.0000000Z"
-                                         },
-                                         {
-                                           "trayNumber": 3,
-                                           "recipeName": "Basil",
-                                           "startDate": "2030-01-01T23:45:00.0000000Z"
-                                         }
-                                       ]
-                                     }
-                                     """;
-        RecipeRequestList recipeRequestList = JsonSerializer.Deserialize<RecipeRequestList>(recipeRequestStringRaw);
-
+        
         return _schedulingService.CreateScheduleForListOfRequests(recipeRequestList.RecipeRequests, recipeList!.Recipes, ordered: true);
     }
 }

@@ -38,5 +38,6 @@ public class RecipeRequest
         }
     }
 
+    [JsonIgnore]
     public DateTime? StartDate { get; set; }
 }

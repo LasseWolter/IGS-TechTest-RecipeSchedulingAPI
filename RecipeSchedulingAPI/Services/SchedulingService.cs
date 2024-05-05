@@ -36,7 +36,7 @@ public class SchedulingService : ISchedulingService
             for (int i = 0; i < wateringPhase.Repetitions; i++)
             {
                 int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
-                schedule.Events.Add(new Event(startDate.AddMinutes(timeOffsetMinutes), CommandType.Water, waterAmount: wateringPhase.Amount));
+                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), request.TrayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
             }
         }
 
@@ -48,12 +48,12 @@ public class SchedulingService : ISchedulingService
                 foreach (Operation operation in lightingPhase.Operations)
                 {
                     int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
-                    schedule.Events.Add(new Event(startDate.AddMinutes(operationOffsetInMinutes), CommandType.Light, lightIntensity: operation.LightIntensity));
+                    schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), request.TrayNumber,  CommandType.Light, lightIntensity: operation.LightIntensity));
                 }
             }
         }
 
-        schedule.Events = schedule.Events.OrderBy(e => e.DateTimeUtc).ToList();
+        schedule.Commands = schedule.Commands.OrderBy(e => e.DateTimeUtc).ToList();
         return schedule;
     }
 }

@@ -16,7 +16,11 @@ public class SchedulingService : ISchedulingService
     {
         if (request.StartDate == null)
         {
-            _logger.LogError("StartDate is null, can't create schedule.");
+            var e = new InvalidDataException("StartDate in ScheduleRequest is invalid.");
+            e.Data.Add("Request: RecipeName", request.RecipeName);
+            e.Data.Add("Request: StartDate", request.StartDate);
+            e.Data.Add("Request: TrayNumber", request.TrayNumber);
+            _logger.LogError(e,"StartDate is invalid, can't create schedule.");
             return null;
         }
 

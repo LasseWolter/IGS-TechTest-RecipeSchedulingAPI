@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeSchedulingAPI", "RecipeSchedulingAPI\RecipeSchedulingAPI.csproj", "{B7742AA0-9BB5-49E7-9F36-0913CDB1D396}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeSchedulingAPI.Tests", "RecipeSchedulingAPI.Tests\RecipeSchedulingAPI.Tests.csproj", "{8E9C0E2B-5D35-41C0-A185-E89046610B79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{B7742AA0-9BB5-49E7-9F36-0913CDB1D396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7742AA0-9BB5-49E7-9F36-0913CDB1D396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7742AA0-9BB5-49E7-9F36-0913CDB1D396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E9C0E2B-5D35-41C0-A185-E89046610B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E9C0E2B-5D35-41C0-A185-E89046610B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E9C0E2B-5D35-41C0-A185-E89046610B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E9C0E2B-5D35-41C0-A185-E89046610B79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

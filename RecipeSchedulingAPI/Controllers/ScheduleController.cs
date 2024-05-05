@@ -7,7 +7,7 @@ namespace RecipeSchedulingAPI.Controllers;
 
 [ApiController]
 [Route("api/v1/schedule")]
-public class ScheduleController
+public class ScheduleController : ControllerBase
 {
     private readonly SchedulingService _schedulingService;
     private readonly ILogger<ScheduleController> _logger;
@@ -17,10 +17,11 @@ public class ScheduleController
         _logger = logger;
         _schedulingService = schedulingService;
     }
-
+    
     [HttpPost]
-    // REMARK: Parsing the JSON using [FromBody] automatically return a 400 if the JSON is malformed.
-    public async Task<Schedule?> GetScheduleForListOfRequests([FromBody] RecipeRequestList recipeRequestList)
+    // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
+    // This means we don't need to do manual checking if the JSON is valid. 
+    public async Task<IActionResult> GetScheduleForListOfRequests([FromBody] RecipeRequestList recipeRequestList)
     {
         _logger.LogDebug("GetSchedule entered.");
 
@@ -34,7 +35,7 @@ public class ScheduleController
         {
             // REMARK: Could add more detail to the error here to make monitoring easier.
             _logger.LogError($"API request to fetch recipe failed: {response.ReasonPhrase}");
-            // TODO: return error code
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
         RecipeList? recipeList = null;
@@ -45,15 +46,22 @@ public class ScheduleController
         catch(Exception e)
         {
             _logger.LogError($"Error deserialising recipe response: {e}");
-            // TODO: return error code
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
         if (recipeList == null)
         {  
             _logger.LogError($"Recipe list is null.");
-            // TODO: return error code
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
         
-        return _schedulingService.CreateScheduleForListOfRequests(recipeRequestList.RecipeRequests, recipeList!.Recipes, ordered: true);
+        var schedule = _schedulingService.CreateScheduleForListOfRequests(recipeRequestList.RecipeRequests, recipeList!.Recipes, ordered: true);
+
+        if (schedule == null)
+        {
+            return BadRequest("Your requests does not contain any valid requests or doesn't match any recipes in our backend. Please check your request data.");
+        }
+
+        return Ok(schedule);
     }
 }

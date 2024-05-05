@@ -21,7 +21,7 @@ public class ScheduleController : ControllerBase
     [HttpPost]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
     // This means we don't need to do manual checking if the JSON is valid. 
-    public async Task<IActionResult> GetScheduleForListOfRequests([FromBody] RecipeRequestList recipeRequestList)
+    public async Task<IActionResult> GetScheduleForListOfRequests([FromBody] ScheduleRequestList scheduleRequestList)
     {
         _logger.LogDebug("GetSchedule entered.");
 
@@ -64,7 +64,7 @@ public class ScheduleController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
         
-        var schedule = _schedulingService.CreateScheduleForListOfRequests(recipeRequestList.RecipeRequests, recipeList!.Recipes, ordered: true);
+        var schedule = _schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList!.Recipes, ordered: true);
 
         if (schedule == null)
         {

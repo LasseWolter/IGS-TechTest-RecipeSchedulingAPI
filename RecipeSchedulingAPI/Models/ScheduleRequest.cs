@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace RecipeSchedulingAPI.Models;
 
-public class RecipeRequest
+public class ScheduleRequest
 {
     [JsonPropertyName("trayNumber")]
     public int TrayNumber { get; set; }

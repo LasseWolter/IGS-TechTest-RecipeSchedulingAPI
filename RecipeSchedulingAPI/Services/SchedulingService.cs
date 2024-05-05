@@ -12,7 +12,7 @@ public class SchedulingService : ISchedulingService
         _logger = logger;
     }
 
-    public Schedule? CreateScheduleForSingleRequest(RecipeRequest request, List<Recipe> recipes, bool ordered = false)
+    public Schedule? CreateScheduleForSingleRequest(ScheduleRequest request, List<Recipe> recipes, bool ordered = false)
     {
         if (request.StartDate == null)
         {
@@ -29,7 +29,7 @@ public class SchedulingService : ISchedulingService
         var matchedRecipes = recipes.FirstOrDefault(r => r.Name == request.RecipeName);
         if (matchedRecipes == null)
         {
-            _logger.LogWarning($"No matching recipe found for RecipeRequest: {request.RecipeName}");
+            _logger.LogWarning($"No matching recipe found for ScheduleRequest for RecipeName: {request.RecipeName}");
             return null;
         }
 
@@ -71,10 +71,10 @@ public class SchedulingService : ISchedulingService
     // querying this API for the schedule for update while a schedule is already being executed. 
     // I think having this distinction makes it easier for the tower to know and log if something is wrong.
     // We could also solely rely on logs from this API and just return an emtpy schedule if there is a problem. It's a design decision I'm happy to discuss.
-    public Schedule? CreateScheduleForListOfRequests(List<RecipeRequest> requests, List<Recipe> recipes, bool ordered = false)
+    public Schedule? CreateScheduleForListOfRequests(List<ScheduleRequest> requests, List<Recipe> recipes, bool ordered = false)
     {
         Schedule? fullSchedule = null;
-        foreach (RecipeRequest request in requests)
+        foreach (ScheduleRequest request in requests)
         {
             var schedule = CreateScheduleForSingleRequest(request, recipes);
             if (schedule == null)

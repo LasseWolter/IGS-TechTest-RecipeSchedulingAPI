@@ -17,7 +17,7 @@ public class SchedulingService(ILogger<SchedulingService> logger) : ISchedulingS
             return null;
         }
 
-        DateTime startDate = (DateTime)request.StartDate;
+        var startDate = (DateTime)request.StartDate;
 
         var matchedRecipes = recipes.FirstOrDefault(r => r.Name == request.RecipeName);
         if (matchedRecipes == null)
@@ -26,16 +26,13 @@ public class SchedulingService(ILogger<SchedulingService> logger) : ISchedulingS
             return null;
         }
 
-        Schedule schedule = new Schedule();
+        var schedule = new Schedule();
 
         ExtractCommandsForWateringPhases(ref schedule, matchedRecipes.WateringPhases, startDate, request.TrayNumber);
 
         ExtractCommandsForLightingPhases(ref schedule, matchedRecipes.LightingPhases, startDate, request.TrayNumber);
 
-        if (ordered)
-        {
-            schedule.Commands = schedule.Commands.OrderBy(e => e.DateTimeUtc).ToList();
-        }
+        if (ordered) schedule.Commands = schedule.Commands.OrderBy(e => e.DateTimeUtc).ToList();
 
         return schedule;
     }
@@ -49,54 +46,43 @@ public class SchedulingService(ILogger<SchedulingService> logger) : ISchedulingS
     public Schedule? CreateScheduleForListOfRequests(List<ScheduleRequest> requests, List<Recipe> recipes, bool ordered = false)
     {
         Schedule? fullSchedule = null;
-        foreach (ScheduleRequest request in requests)
+        foreach (var request in requests)
         {
             var schedule = CreateScheduleForSingleRequest(request, recipes);
-            if (schedule == null)
-            {
-                continue;
-            }
+            if (schedule == null) continue;
 
             fullSchedule ??= new Schedule();
 
             fullSchedule.Commands.AddRange(schedule.Commands);
         }
 
-        if (fullSchedule != null && ordered)
-        {
-            fullSchedule.Commands = fullSchedule.Commands.OrderBy(e => e.DateTimeUtc).ToList();
-        }
+        if (fullSchedule != null && ordered) fullSchedule.Commands = fullSchedule.Commands.OrderBy(e => e.DateTimeUtc).ToList();
 
         return fullSchedule;
     }
-    
+
     public void ExtractCommandsForWateringPhases(ref Schedule schedule, List<WateringPhase> wateringPhases, DateTime startDate, int trayNumber)
     {
-        foreach (WateringPhase wateringPhase in wateringPhases)
-        {
-            for (int i = 0; i < wateringPhase.Repetitions; i++)
+        foreach (var wateringPhase in wateringPhases)
+            for (var i = 0; i < wateringPhase.Repetitions; i++)
             {
-                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
-                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), trayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
+                var timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
+                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), trayNumber, CommandType.Water, wateringPhase.Amount));
             }
-        }
     }
 
     // REMARK: Making this public for simplicity's sake. Allows easy access from test project.
     public void ExtractCommandsForLightingPhases(ref Schedule schedule, List<LightingPhase> lightingPhases, DateTime startDate, int trayNumber)
     {
-        foreach (LightingPhase lightingPhase in lightingPhases)
-        {
-            for (int i = 0; i < lightingPhase.Repetitions; i++)
+        foreach (var lightingPhase in lightingPhases)
+            for (var i = 0; i < lightingPhase.Repetitions; i++)
             {
-                int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
-                foreach (Operation operation in lightingPhase.Operations)
+                var phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
+                foreach (var operation in lightingPhase.Operations)
                 {
-                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
+                    var operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
                     schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), trayNumber, CommandType.Light, lightIntensity: operation.LightIntensity));
                 }
             }
-        }
     }
-
 }

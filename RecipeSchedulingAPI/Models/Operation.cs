@@ -7,10 +7,10 @@ public class Operation
 {
     [JsonPropertyName("offsetHours")]
     public int OffsetHours { get; set; }
-    
+
     [JsonPropertyName("offsetMinutes")]
     public int OffsetMinutes { get; set; }
-    
+
     [JsonPropertyName("lightIntensity")]
-    public LightIntensity LightIntensity { get; set; } 
+    public LightIntensity LightIntensity { get; set; }
 }

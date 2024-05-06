@@ -4,6 +4,15 @@ namespace RecipeSchedulingAPI.Models;
 
 public class Commands
 {
+    public Commands(DateTime dateTimeUtc, int trayNumber, CommandType commandType, int? waterAmount = null, LightIntensity? lightIntensity = null)
+    {
+        DateTimeUtc = dateTimeUtc;
+        TrayNumber = trayNumber;
+        CommandType = commandType;
+        WaterAmount = waterAmount;
+        LightIntensity = lightIntensity;
+    }
+
     // REMARK: One could add a string for the phase here but technically that's not needed for the tower.
     // The tower only needs to know when, where and what to do. The context doesn't really matter. 
     // It might help though if something goes wrong to have some context. 
@@ -14,13 +23,4 @@ public class Commands
     public LightIntensity? LightIntensity { get; set; }
 
     public int TrayNumber { get; set; }
-
-    public Commands(DateTime dateTimeUtc, int trayNumber, CommandType commandType, int? waterAmount = null, LightIntensity? lightIntensity = null)
-    {
-        DateTimeUtc = dateTimeUtc;
-        TrayNumber = trayNumber;
-        CommandType = commandType;
-        WaterAmount = waterAmount;
-        LightIntensity = lightIntensity;
-    }
 }

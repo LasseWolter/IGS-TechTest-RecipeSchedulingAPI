@@ -5,25 +5,25 @@ namespace RecipeSchedulingAPI.Models;
 
 public class ScheduleRequest
 {
+    private string startDateRaw;
+
     /// <summary>
-    /// The tray on which the fruit is grown.
+    ///     The tray on which the fruit is grown.
     /// </summary>
     /// <example>1</example>
     [JsonPropertyName("trayNumber")]
     public int TrayNumber { get; set; }
 
     /// <summary>
-    /// The recipe name for the fruit.
+    ///     The recipe name for the fruit.
     /// </summary>
     /// <example>Basil</example>
     [JsonPropertyName("recipeName")]
     public string RecipeName { get; set; }
 
-    private string startDateRaw;
-
     /// <summary>
-    /// Raw date string that is sent to the API endpoint.
-    /// Set StartDate if the date is valid, otherwise StartDate will be null.
+    ///     Raw date string that is sent to the API endpoint.
+    ///     Set StartDate if the date is valid, otherwise StartDate will be null.
     /// </summary>
     /// <example>2022-01-24T12:30:00.0000000Z</example>
     [JsonPropertyName("startDate")]
@@ -38,17 +38,14 @@ public class ScheduleRequest
         // as you identify bad/invalid data
         set
         {
-            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, out DateTime startDate))
-            {
-                StartDate = startDate;
-            }
+            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, out var startDate)) StartDate = startDate;
 
             startDateRaw = value;
         }
     }
 
     /// <summary>
-    /// Date when you want to start growing the fruit. Is null if the date passed in was invalid/couldn't be parsed.
+    ///     Date when you want to start growing the fruit. Is null if the date passed in was invalid/couldn't be parsed.
     /// </summary>
     [JsonIgnore]
     public DateTime? StartDate { get; set; }

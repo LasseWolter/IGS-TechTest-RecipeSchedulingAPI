@@ -4,6 +4,6 @@ namespace RecipeSchedulingAPI.Models;
 
 public class RecipeList
 {
-    [JsonPropertyName("recipes")] 
+    [JsonPropertyName("recipes")]
     public List<Recipe> Recipes { get; set; }
 }

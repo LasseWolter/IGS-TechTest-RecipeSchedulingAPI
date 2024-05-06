@@ -28,7 +28,7 @@ public class SchedulingServiceTests
         // Arrange
         var schedulingService = new SchedulingService(_mockLogger.Object);
 
-        DateTime startDate = new DateTime(2022, 1, 1);
+        var startDate = new DateTime(2022, 1, 1);
         var scheduleRequest = new ScheduleRequest
         {
             TrayNumber = 1,
@@ -56,13 +56,12 @@ public class SchedulingServiceTests
                             {
                                 OffsetHours = 0,
                                 OffsetMinutes = 0,
-                                LightIntensity = LightIntensity.High,
+                                LightIntensity = LightIntensity.High
                             }
                         ]
                     }
                 ]
             }
-
         ];
 
         // Act
@@ -118,7 +117,7 @@ public class SchedulingServiceTests
                     {
                         OffsetHours = 0,
                         OffsetMinutes = 0,
-                        LightIntensity = LightIntensity.High,
+                        LightIntensity = LightIntensity.High
                     }
                 ]
             }

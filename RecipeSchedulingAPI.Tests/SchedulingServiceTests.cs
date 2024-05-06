@@ -7,6 +7,7 @@ using RecipeSchedulingAPI.Services;
 
 namespace RecipeSchedulingAPI.Tests;
 
+// REMARK: This is a POC for how unit tests could be added. For a production app you would obviously add a lot more tests. 
 public class SchedulingServiceTests
 {
     private Mock<ILogger<SchedulingService>> _mockLogger;

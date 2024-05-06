@@ -38,7 +38,7 @@ public class ScheduleRequest
         // as you identify bad/invalid data
         set
         {
-            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, out var startDate)) StartDate = startDate;
+            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, out var startDate)) StartDate = startDate.ToUniversalTime();
 
             startDateRaw = value;
         }

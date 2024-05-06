@@ -20,7 +20,7 @@ public class SchedulingService : ISchedulingService
             e.Data.Add("Request: RecipeName", request.RecipeName);
             e.Data.Add("Request: StartDate", request.StartDate);
             e.Data.Add("Request: TrayNumber", request.TrayNumber);
-            _logger.LogError(e,"StartDate is invalid, can't create schedule.");
+            _logger.LogError(e, "StartDate is invalid, can't create schedule.");
             return null;
         }
 
@@ -35,27 +35,9 @@ public class SchedulingService : ISchedulingService
 
         Schedule schedule = new Schedule();
 
-        foreach (WateringPhase wateringPhase in matchedRecipes.WateringPhases)
-        {
-            for (int i = 0; i < wateringPhase.Repetitions; i++)
-            {
-                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
-                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), request.TrayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
-            }
-        }
+        ExtractCommandsForWateringPhases(ref schedule, matchedRecipes.WateringPhases, startDate, request.TrayNumber);
 
-        foreach (LightingPhase lightingPhase in matchedRecipes.LightingPhases)
-        {
-            for (int i = 0; i < lightingPhase.Repetitions; i++)
-            {
-                int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
-                foreach (Operation operation in lightingPhase.Operations)
-                {
-                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
-                    schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), request.TrayNumber, CommandType.Light, lightIntensity: operation.LightIntensity));
-                }
-            }
-        }
+        ExtractCommandsForLightingPhases(ref schedule, matchedRecipes.LightingPhases, startDate, request.TrayNumber);
 
         if (ordered)
         {
@@ -63,6 +45,35 @@ public class SchedulingService : ISchedulingService
         }
 
         return schedule;
+    }
+
+    public void ExtractCommandsForWateringPhases(ref Schedule schedule, List<WateringPhase> wateringPhases, DateTime startDate, int trayNumber)
+    {
+        foreach (WateringPhase wateringPhase in wateringPhases)
+        {
+            for (int i = 0; i < wateringPhase.Repetitions; i++)
+            {
+                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
+                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), trayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
+            }
+        }
+    }
+
+    // REMARK: Making this public for simplicity's sake. Allows easy access from test project.
+    public void ExtractCommandsForLightingPhases(ref Schedule schedule, List<LightingPhase> lightingPhases, DateTime startDate, int trayNumber)
+    {
+        foreach (LightingPhase lightingPhase in lightingPhases)
+        {
+            for (int i = 0; i < lightingPhase.Repetitions; i++)
+            {
+                int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
+                foreach (Operation operation in lightingPhase.Operations)
+                {
+                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
+                    schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), trayNumber, CommandType.Light, lightIntensity: operation.LightIntensity));
+                }
+            }
+        }
     }
 
     // REMARK: Why return 'null' and not just an empty schedule? 

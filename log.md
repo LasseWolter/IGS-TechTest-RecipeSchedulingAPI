@@ -1,5 +1,11 @@
 This document outlines the steps I've taken to come up with/develop my solution.
 
+# Design decisions  
+* decided to use one command type for both watering and lighting commands 
+  * unused fields will just be null 
+  * could make a case for using separate forms to send less data over the wire
+    * having a single model allows for easy and fast development for now. I would revisit this for produdction code 
+
 # Steps taken 
 * create empty git repo, add README and .gitignore
   - added `appsettings.Development.json` to .gitignore
@@ -40,4 +46,9 @@ This document outlines the steps I've taken to come up with/develop my solution.
   - REMARK: 
     - follow common API naming convetion
     - prefixing with `v1` allows for easy tracking and upgrade of API logic while staying backwards compatible
+
+* add unit testings 
+  - decided to use FluentAssertions because I find them quite intuitive
+    - for production code you would use the guideline that's used by your company. `Assert.That` is quite a common one that's used in .NET. 
+
 

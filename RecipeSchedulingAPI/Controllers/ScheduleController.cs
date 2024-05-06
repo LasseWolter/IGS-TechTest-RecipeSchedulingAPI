@@ -17,7 +17,7 @@ public class ScheduleController : ControllerBase
         _logger = logger;
         _schedulingService = schedulingService;
     }
-    
+
     [HttpPost]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
     // This means we don't need to do manual checking if the JSON is valid. 
@@ -41,7 +41,7 @@ public class ScheduleController : ControllerBase
             e.Data.Add("Response Status Code", response.StatusCode);
             e.Data.Add("Response Reason Phrase", response.ReasonPhrase);
             _logger.LogError(e, "API request to fetch recipe failed");
-            
+
             // REMARK: With an API you generally don't want to expose the exact issue to the outside if it's not something the user/request did wrong.
             // Being more specific about the issue can leak internal about the API design and pose a security risk.
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
@@ -52,18 +52,18 @@ public class ScheduleController : ControllerBase
         {
             recipeList = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             _logger.LogError($"Error deserialising recipe response: {e}");
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
         if (recipeList == null)
-        {  
+        {
             _logger.LogError($"Recipe list is null.");
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
-        
+
         var schedule = _schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList!.Recipes, ordered: true);
 
         if (schedule == null)

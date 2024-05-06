@@ -81,7 +81,7 @@ public class SchedulingService : ISchedulingService
     // An empty schedule will be returned if there is nothing left to do. This could be handy if we later decide to add the functionality of 
     // querying this API for the schedule for update while a schedule is already being executed. 
     // I think having this distinction makes it easier for the tower to know and log if something is wrong.
-    // We could also solely rely on logs from this API and just return an emtpy schedule if there is a problem. It's a design decision I'm happy to discuss.
+    // We could also solely rely on logs from this API and just return an empty schedule if there is a problem. It's a design decision I'm happy to discuss.
     public Schedule? CreateScheduleForListOfRequests(List<ScheduleRequest> requests, List<Recipe> recipes, bool ordered = false)
     {
         Schedule? fullSchedule = null;

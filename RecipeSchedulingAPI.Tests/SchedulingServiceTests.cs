@@ -29,40 +29,41 @@ public class SchedulingServiceTests
         var schedulingService = new SchedulingService(_mockLogger.Object);
 
         DateTime startDate = new DateTime(2022, 1, 1);
-        var scheduleRequest = new ScheduleRequest()
+        var scheduleRequest = new ScheduleRequest
         {
             TrayNumber = 1,
             RecipeName = "Fruit1",
             StartDate = startDate
         };
 
-        var recipeList = new List<Recipe>()
-        {
-            new Recipe()
+        List<Recipe> recipeList =
+        [
+            new Recipe
             {
                 Name = "Fruit1",
-                WateringPhases = new List<WateringPhase>(),
-                LightingPhases = new List<LightingPhase>()
-                {
-                    new LightingPhase()
+                WateringPhases = [],
+                LightingPhases =
+                [
+                    new LightingPhase
                     {
                         Name = "Test Phase 1",
                         Hours = 1,
                         Minutes = 0,
                         Repetitions = 1,
-                        Operations = new List<Operation>()
-                        {
-                            new Operation()
+                        Operations =
+                        [
+                            new Operation
                             {
                                 OffsetHours = 0,
                                 OffsetMinutes = 0,
                                 LightIntensity = LightIntensity.High,
                             }
-                        }
+                        ]
                     }
-                }
-            },
-        };
+                ]
+            }
+
+        ];
 
         // Act
         var schedule = schedulingService.CreateScheduleForSingleRequest(scheduleRequest, recipeList);
@@ -82,13 +83,13 @@ public class SchedulingServiceTests
         // Arrange 
         var schedule = new Schedule();
         var schedulingService = new SchedulingService(_mockLogger.Object);
-        var wateringPhases = new List<WateringPhase>()
-        {
-            new WateringPhase()
+        List<WateringPhase> wateringPhases =
+        [
+            new WateringPhase
             {
                 Amount = 100, Repetitions = 1, Minutes = 0, Hours = 1, Name = "Watering Phase Test", Order = 1
             }
-        };
+        ];
 
         // Act
         schedulingService.ExtractCommandsForWateringPhases(ref schedule, wateringPhases, It.IsAny<DateTime>(), It.IsAny<int>());
@@ -103,25 +104,25 @@ public class SchedulingServiceTests
         // Arrange
         var schedule = new Schedule();
         var schedulingService = new SchedulingService(_mockLogger.Object);
-        var lightingPhases = new List<LightingPhase>()
-        {
-            new LightingPhase()
+        List<LightingPhase> lightingPhases =
+        [
+            new LightingPhase
             {
                 Name = "Test Light Phase 1",
                 Hours = 1,
                 Minutes = 0,
                 Repetitions = 1,
-                Operations = new List<Operation>()
-                {
-                    new Operation()
+                Operations =
+                [
+                    new Operation
                     {
                         OffsetHours = 0,
                         OffsetMinutes = 0,
                         LightIntensity = LightIntensity.High,
                     }
-                }
+                ]
             }
-        };
+        ];
 
         // Act  
         schedulingService.ExtractCommandsForLightingPhases(ref schedule, lightingPhases, It.IsAny<DateTime>(), It.IsAny<int>());

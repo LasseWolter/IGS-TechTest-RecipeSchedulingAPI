@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Objective](#objective)
 2. [How to run the code](#how-to-run-the-code)
-3. [Notes on my code](#how-to-run-the-code)
+3. [Notes on my code](#notes-on-my-code)
     - [Initial Thoughts](#initial-thoughts)
     - [Code Comments](#code-comments) 
     - [Design Decisions](#design-decisions)
@@ -64,7 +64,7 @@ git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-Recip
 6. Use the _Try it out_ button on the `api/v1/schedule/multiple` to run the example input from
    section [Objective](#objective)
 
-## Notes on my code 
+## Notes on my code
 
 ### Initial Thoughts
 

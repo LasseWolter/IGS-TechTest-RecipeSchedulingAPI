@@ -111,7 +111,7 @@ public class ScheduleController(ILogger<ScheduleController> logger, ISchedulingS
         var httpClient = new HttpClient();
         // REMARK: The domain where this endpoint is running should ideally be configured in appsettings.config such that 
         // you only need to switch out the config to run this code in different environments.
-        var endpoint = "http://localhost:8080/recipe";
+        var endpoint = "http://recipe-api:80/recipe";
         var response = await httpClient.GetAsync(endpoint);
 
         if (!response.IsSuccessStatusCode)

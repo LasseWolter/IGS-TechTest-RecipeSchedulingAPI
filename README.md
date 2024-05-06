@@ -60,7 +60,7 @@ git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-Recip
     2. POST `api/v1/schedule/multiple`
         * accepts a list of inputs as specified in section [Objective](#objective)
     3. POST `api/v1/schedule/single`
-        * accepts a single input using the schema of a single item in the input list in section [Objective](#objective)
+        * accepts a single input using the same schema as a single item from the input list in section [Objective](#objective)
 7. Both POST enpoint are prepopulated with sensible example data, so you can run them directly from SwaggerUI
 6. Use the _Try it out_ button on the `api/v1/schedule/multiple` to run the example input from
    section [Objective](#objective)

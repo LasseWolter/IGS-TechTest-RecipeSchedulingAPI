@@ -19,6 +19,13 @@ public class ScheduleController : ControllerBase
         _schedulingService = schedulingService;
     }
 
+    [HttpGet]
+    public IActionResult GetRoot()
+    {
+        _logger.LogDebug($"{nameof(GetScheduleForListOfRequests)} entered.");
+        return Ok("Welcome to the RecipeSchedulingAPI.");
+    }
+
     [HttpPost]
     [Route("mutiple")]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  

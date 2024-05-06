@@ -47,35 +47,6 @@ public class SchedulingService : ISchedulingService
         return schedule;
     }
 
-    public void ExtractCommandsForWateringPhases(ref Schedule schedule, List<WateringPhase> wateringPhases, DateTime startDate, int trayNumber)
-    {
-        foreach (WateringPhase wateringPhase in wateringPhases)
-        {
-            for (int i = 0; i < wateringPhase.Repetitions; i++)
-            {
-                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
-                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), trayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
-            }
-        }
-    }
-
-    // REMARK: Making this public for simplicity's sake. Allows easy access from test project.
-    public void ExtractCommandsForLightingPhases(ref Schedule schedule, List<LightingPhase> lightingPhases, DateTime startDate, int trayNumber)
-    {
-        foreach (LightingPhase lightingPhase in lightingPhases)
-        {
-            for (int i = 0; i < lightingPhase.Repetitions; i++)
-            {
-                int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
-                foreach (Operation operation in lightingPhase.Operations)
-                {
-                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
-                    schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), trayNumber, CommandType.Light, lightIntensity: operation.LightIntensity));
-                }
-            }
-        }
-    }
-
     // REMARK: Why return 'null' and not just an empty schedule? 
     // I decided to return null if something went wrong (e.g. the recipe wasn't found or the startDate is null). 
     // An empty schedule will be returned if there is nothing left to do. This could be handy if we later decide to add the functionality of 
@@ -105,4 +76,34 @@ public class SchedulingService : ISchedulingService
 
         return fullSchedule;
     }
+    
+    public void ExtractCommandsForWateringPhases(ref Schedule schedule, List<WateringPhase> wateringPhases, DateTime startDate, int trayNumber)
+    {
+        foreach (WateringPhase wateringPhase in wateringPhases)
+        {
+            for (int i = 0; i < wateringPhase.Repetitions; i++)
+            {
+                int timeOffsetMinutes = wateringPhase.Hours * 60 * i + wateringPhase.Minutes * i;
+                schedule.Commands.Add(new Commands(startDate.AddMinutes(timeOffsetMinutes), trayNumber, CommandType.Water, waterAmount: wateringPhase.Amount));
+            }
+        }
+    }
+
+    // REMARK: Making this public for simplicity's sake. Allows easy access from test project.
+    public void ExtractCommandsForLightingPhases(ref Schedule schedule, List<LightingPhase> lightingPhases, DateTime startDate, int trayNumber)
+    {
+        foreach (LightingPhase lightingPhase in lightingPhases)
+        {
+            for (int i = 0; i < lightingPhase.Repetitions; i++)
+            {
+                int phaseStartOffsetMinutes = lightingPhase.Hours * 60 * i + lightingPhase.Minutes * i;
+                foreach (Operation operation in lightingPhase.Operations)
+                {
+                    int operationOffsetInMinutes = phaseStartOffsetMinutes + operation.OffsetHours * 60 + operation.OffsetMinutes;
+                    schedule.Commands.Add(new Commands(startDate.AddMinutes(operationOffsetInMinutes), trayNumber, CommandType.Light, lightIntensity: operation.LightIntensity));
+                }
+            }
+        }
+    }
+
 }

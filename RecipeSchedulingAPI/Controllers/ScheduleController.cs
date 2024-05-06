@@ -1,6 +1,7 @@
 using System.Data;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using RecipeSchedulingAPI.Interfaces;
 using RecipeSchedulingAPI.Models;
 using RecipeSchedulingAPI.Services;
 
@@ -10,10 +11,10 @@ namespace RecipeSchedulingAPI.Controllers;
 [Route("api/v1/schedule")]
 public class ScheduleController : ControllerBase
 {
-    private readonly SchedulingService _schedulingService;
+    private readonly ISchedulingService _schedulingService;
     private readonly ILogger<ScheduleController> _logger;
 
-    public ScheduleController(ILogger<ScheduleController> logger, SchedulingService schedulingService)
+    public ScheduleController(ILogger<ScheduleController> logger, ISchedulingService schedulingService)
     {
         _logger = logger;
         _schedulingService = schedulingService;

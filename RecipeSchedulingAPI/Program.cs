@@ -1,3 +1,4 @@
+using RecipeSchedulingAPI.Interfaces;
 using RecipeSchedulingAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// TODO: Add DI
 builder.Services.AddControllers();
 builder.Logging.AddConsole();
-builder.Services.AddScoped<SchedulingService>();
+
+// REMARK: I'm directly registering the service here. For production code I would register 
+builder.Services.AddScoped<ISchedulingService, SchedulingService>();
 
 var app = builder.Build();
 

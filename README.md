@@ -51,8 +51,8 @@ git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-Recip
 ```
 2. `cd` into the cloned repo and run `docker-compose up`
 3. You'll now have the both the SchedulingAPI and RecipeAPI running
-    * RecipeAPI: [http:localhost:8080](http:localhost:8090)
-    * ScheduleAPI: [http:localhost:8090](http:localhost:8090)
+    * RecipeAPI: [http:localhost:8080](http:localhost:8080/swagger)
+    * ScheduleAPI: [http:localhost:8090](http:localhost:8090/swagger)
 4. Navigate to [http:localhost:8090/swagger](http:localhost:8090/swagger)
 5. You'll see three endpoints, all of them prepopulated with sensible example data, so you can run them directly from SwaggerUI.
     1. GET `api/v1/schedule`

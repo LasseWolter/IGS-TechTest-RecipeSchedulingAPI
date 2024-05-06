@@ -10,6 +10,9 @@ namespace RecipeSchedulingAPI.Controllers;
 [Route("api/v1/schedule")]
 public class ScheduleController(ILogger<ScheduleController> logger, ISchedulingService schedulingService) : ControllerBase
 {
+    /// <summary>
+    /// Simple welcome endpoint to test if the API is running.
+    /// </summary>
     [HttpGet]
     public IActionResult GetRoot()
     {
@@ -17,6 +20,10 @@ public class ScheduleController(ILogger<ScheduleController> logger, ISchedulingS
         return Ok("Welcome to the RecipeSchedulingAPI.");
     }
 
+    /// <summary>
+    /// Get a schedule for a list of fruits by defining a list of schedule requests (consisting of recipe name, tray and start date) in the body. 
+    /// </summary>
+    /// <param name="scheduleRequestList">List of requests for which you want to generate a schedule.</param>
     [HttpPost]
     // REMARK: Route naming isn't great here but does the work for now.
     // For production routes should ideally be as self-explanatory as possible.
@@ -51,6 +58,11 @@ public class ScheduleController(ILogger<ScheduleController> logger, ISchedulingS
     }
 
 
+    /// <summary>
+    /// Get a schedule for a single fruit by defining a single schedule request (consisting of recipe name, tray and start date) in the body. 
+    /// </summary>
+    /// <param name="scheduleRequest">Request for which you want to generate the schedule.</param>
+    /// <returns></returns>
     [HttpPost]
     // REMARK: Route naming isn't great here but does the work for now.
     // For production routes should ideally be as self-explanatory as possible.

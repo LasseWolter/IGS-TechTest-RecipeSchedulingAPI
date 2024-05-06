@@ -3,7 +3,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using RecipeSchedulingAPI.Interfaces;
 using RecipeSchedulingAPI.Models;
-using RecipeSchedulingAPI.Services;
 
 namespace RecipeSchedulingAPI.Controllers;
 
@@ -28,6 +27,8 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpPost]
+    // REMARK: Route naming isn't great here but does the work for now.
+    // For production routes should ideally be as self-explanatory as possible.
     [Route("mutiple")]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
     // This means we don't need to do manual checking if the JSON is valid. 
@@ -48,7 +49,7 @@ public class ScheduleController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
-        var schedule = _schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList!.Recipes, ordered: true);
+        var schedule = _schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList.Recipes, ordered: true);
 
         if (schedule == null)
         {
@@ -60,6 +61,8 @@ public class ScheduleController : ControllerBase
 
 
     [HttpPost]
+    // REMARK: Route naming isn't great here but does the work for now.
+    // For production routes should ideally be as self-explanatory as possible.
     [Route("single")]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
     // This means we don't need to do manual checking if the JSON is valid. 
@@ -122,9 +125,8 @@ public class ScheduleController : ControllerBase
             throw e;
         }
 
-        RecipeList? recipeList = null;
         // If deserialization fails, an exception is thrown. This exception will be caught outside of this method
-        recipeList = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
+        RecipeList? recipeList = JsonSerializer.Deserialize<RecipeList>(await response.Content.ReadAsStringAsync());
 
         if (recipeList == null)
         {

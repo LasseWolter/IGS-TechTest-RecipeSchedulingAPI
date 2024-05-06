@@ -35,21 +35,23 @@ The dates in the schedule should be in UTC.
 
 ## How to run the code
 
-1. Clone the [task repo](https://github.com/intelligent-growth-solutions/tech-test-software-engineer)
-2. `cd` into the cloned task repo and run `docker-compose up`
-3. You'll now have the RecipeAPI running on [http:localhost:8080](http:localhost:8080)
-4. Clone **this** repo
-5. `cd` into the cloned repo and run `docker-compose up`
-6. You'll now have the SchedulingAPI running on [http:localhost:8090](http:localhost:8090)
-7. Navigate to [http:localhost:8090/swagger](http:localhost:8090/swagger)
-8. You'll see three endpoints, all of them prepopulated with sensible example data, so you can run them directly from SwaggerUI.
+1. Clone this repo incl. submodules (the [task repo](https://github.com/intelligent-growth-solutions/tech-test-software-engineer) was pulled in as a submodule)
+```
+git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-RecipeSchedulingAPI.git
+```
+2. `cd` into the cloned repo and run `docker-compose up`
+3. You'll now have the both the SchedulingAPI and RecipeAPI running
+    * RecipeAPI: [http:localhost:8080](http:localhost:8090)
+    * ScheduleAPI: [http:localhost:8090](http:localhost:8090)
+4. Navigate to [http:localhost:8090/swagger](http:localhost:8090/swagger)
+5. You'll see three endpoints, all of them prepopulated with sensible example data, so you can run them directly from SwaggerUI.
     1. GET `api/v1/schedule`
         * a simple "ping" endpoint to check if the API is up
     2. POST `api/v1/schedule/multiple`
         * accepts a list of inputs as specified in section [Objective](#objective)
     3. POST `api/v1/schedule/single`
         * accepts a single input using the schema of a single item in the input list in section [Objective](#objective)
-9. Use the _Try it out_ button on the `api/v1/schedule/multiple` to run the example input from
+6. Use the _Try it out_ button on the `api/v1/schedule/multiple` to run the example input from
    section [Objective](#objective)
 
 ## Notes on my code 
@@ -128,6 +130,7 @@ This approach can easily lead to a final product that doesn't meet the requireme
 That put aside, here are a few improvements on code level: 
 - enable HTTPS
 - add proper monitoring 
+- move endpoints to `appsettings.json` - currently hardcoded in the controller
 - add more unit tests
   - for JSON parsing 
   - for other parts of the scheduling logic

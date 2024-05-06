@@ -1,0 +1,8 @@
+services:
+ schedulingapi:
+    build: ./RecipeSchedulingAPI
+    ports:
+      - "8090:5000"
+    environment: 
+      # I prefer to not rely on default settings and rather specify it explicitly 
+      - ASPNETCORE_HTTP_PORTS=5000

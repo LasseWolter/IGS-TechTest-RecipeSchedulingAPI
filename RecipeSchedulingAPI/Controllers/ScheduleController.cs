@@ -8,33 +8,24 @@ namespace RecipeSchedulingAPI.Controllers;
 
 [ApiController]
 [Route("api/v1/schedule")]
-public class ScheduleController : ControllerBase
+public class ScheduleController(ILogger<ScheduleController> logger, ISchedulingService schedulingService) : ControllerBase
 {
-    private readonly ISchedulingService _schedulingService;
-    private readonly ILogger<ScheduleController> _logger;
-
-    public ScheduleController(ILogger<ScheduleController> logger, ISchedulingService schedulingService)
-    {
-        _logger = logger;
-        _schedulingService = schedulingService;
-    }
-
     [HttpGet]
     public IActionResult GetRoot()
     {
-        _logger.LogDebug($"{nameof(GetScheduleForListOfRequests)} entered.");
+        logger.LogDebug($"{nameof(GetScheduleForListOfRequests)} entered.");
         return Ok("Welcome to the RecipeSchedulingAPI.");
     }
 
     [HttpPost]
     // REMARK: Route naming isn't great here but does the work for now.
     // For production routes should ideally be as self-explanatory as possible.
-    [Route("mutiple")]
+    [Route("multiple")]
     // REMARK: Parsing the JSON using [FromBody] automatically returns a 400 because we put the [ApiController] attribute on this controller.  
     // This means we don't need to do manual checking if the JSON is valid. 
     public async Task<IActionResult> GetScheduleForListOfRequests([FromBody] ScheduleRequestList scheduleRequestList)
     {
-        _logger.LogDebug($"{nameof(GetScheduleForListOfRequests)} entered.");
+        logger.LogDebug($"{nameof(GetScheduleForListOfRequests)} entered.");
 
         RecipeList recipeList;
         try
@@ -45,11 +36,11 @@ public class ScheduleController : ControllerBase
         {
             // REMARK: With an API you generally don't want to expose the exact issue to the outside if it's not something the user/request did wrong.
             // Being more specific about the issue can leak internal about the API design and pose a security risk.
-            _logger.LogError(e, "Error when trying to fetch recipe data.");
+            logger.LogError(e, "Error when trying to fetch recipe data.");
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
-        var schedule = _schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList.Recipes, ordered: true);
+        var schedule = schedulingService.CreateScheduleForListOfRequests(scheduleRequestList.ScheduleRequests, recipeList.Recipes, ordered: true);
 
         if (schedule == null)
         {
@@ -68,7 +59,7 @@ public class ScheduleController : ControllerBase
     // This means we don't need to do manual checking if the JSON is valid. 
     public async Task<IActionResult> GetScheduleForSingleRequest([FromBody] ScheduleRequest scheduleRequest)
     {
-        _logger.LogDebug($"{nameof(GetScheduleForSingleRequest)} entered.");
+        logger.LogDebug($"{nameof(GetScheduleForSingleRequest)} entered.");
         RecipeList recipeList;
         try
         {
@@ -78,11 +69,11 @@ public class ScheduleController : ControllerBase
         {
             // REMARK: With an API you generally don't want to expose the exact issue to the outside if it's not something the user/request did wrong.
             // Being more specific about the issue can leak internal about the API design and pose a security risk.
-            _logger.LogError(e, "Error when trying to fetch recipe data.");
+            logger.LogError(e, "Error when trying to fetch recipe data.");
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on our side, please try again later.");
         }
 
-        var schedule = _schedulingService.CreateScheduleForSingleRequest(scheduleRequest, recipeList.Recipes, true);
+        var schedule = schedulingService.CreateScheduleForSingleRequest(scheduleRequest, recipeList.Recipes, true);
 
         if (schedule == null)
         {
@@ -109,7 +100,7 @@ public class ScheduleController : ControllerBase
     {
         // REMARK: Would be better to pass this in using DI
         HttpClient httpClient = new HttpClient();
-        // REMARK: The domain where this enpoint is running should ideally be configured in appsettings.config such that 
+        // REMARK: The domain where this endpoint is running should ideally be configured in appsettings.config such that 
         // you only need to switch out the config to run this code in different environments.
         string endpoint = "http://localhost:8080/recipe";
         var response = await httpClient.GetAsync(endpoint);

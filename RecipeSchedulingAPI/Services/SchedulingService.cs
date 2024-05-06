@@ -3,15 +3,8 @@ using RecipeSchedulingAPI.Models;
 
 namespace RecipeSchedulingAPI.Services;
 
-public class SchedulingService : ISchedulingService
+public class SchedulingService(ILogger<SchedulingService> logger) : ISchedulingService
 {
-    private readonly ILogger<SchedulingService> _logger;
-
-    public SchedulingService(ILogger<SchedulingService> logger)
-    {
-        _logger = logger;
-    }
-
     public Schedule? CreateScheduleForSingleRequest(ScheduleRequest request, List<Recipe> recipes, bool ordered = false)
     {
         if (request.StartDate == null)
@@ -20,7 +13,7 @@ public class SchedulingService : ISchedulingService
             e.Data.Add("Request: RecipeName", request.RecipeName);
             e.Data.Add("Request: StartDate", request.StartDate);
             e.Data.Add("Request: TrayNumber", request.TrayNumber);
-            _logger.LogError(e, "StartDate is invalid, can't create schedule.");
+            logger.LogError(e, "StartDate is invalid, can't create schedule.");
             return null;
         }
 
@@ -29,7 +22,7 @@ public class SchedulingService : ISchedulingService
         var matchedRecipes = recipes.FirstOrDefault(r => r.Name == request.RecipeName);
         if (matchedRecipes == null)
         {
-            _logger.LogWarning($"No matching recipe found for ScheduleRequest for RecipeName: {request.RecipeName}");
+            logger.LogWarning($"No matching recipe found for ScheduleRequest for RecipeName: {request.RecipeName}");
             return null;
         }
 

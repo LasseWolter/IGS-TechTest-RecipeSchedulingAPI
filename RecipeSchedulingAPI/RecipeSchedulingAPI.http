@@ -6,7 +6,7 @@ Accept: application/json
 ###
 
 # Send post request with JSON body defining a list of requests
-POST {{RecipeSchedulingAPI_HostAddress}}/api/v1/schedule/mutiple
+POST {{RecipeSchedulingAPI_HostAddress}}/api/v1/schedule/multiple
 Content-Type: application/json
 
 {

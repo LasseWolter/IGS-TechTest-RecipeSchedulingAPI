@@ -54,13 +54,14 @@ git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-Recip
     * RecipeAPI: [http:localhost:8080](http:localhost:8080/swagger)
     * ScheduleAPI: [http:localhost:8090](http:localhost:8090/swagger)
 4. Navigate to [http:localhost:8090/swagger](http:localhost:8090/swagger)
-5. You'll see three endpoints, all of them prepopulated with sensible example data, so you can run them directly from SwaggerUI.
+5. You'll see three endpoints:
     1. GET `api/v1/schedule`
         * a simple "ping" endpoint to check if the API is up
     2. POST `api/v1/schedule/multiple`
         * accepts a list of inputs as specified in section [Objective](#objective)
     3. POST `api/v1/schedule/single`
         * accepts a single input using the schema of a single item in the input list in section [Objective](#objective)
+7. Both POST enpoint are prepopulated with sensible example data, so you can run them directly from SwaggerUI
 6. Use the _Try it out_ button on the `api/v1/schedule/multiple` to run the example input from
    section [Objective](#objective)
 

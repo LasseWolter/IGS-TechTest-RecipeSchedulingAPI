@@ -137,5 +137,12 @@ That put aside, here are a few improvements on code level:
 - factor out the HttpService and add caching
 
 ## Final thoughts 
-I enjoyed this little challenge. It got me thinking about different parts of the development lifecycle and gave me the opportunity to practice some skills I haven't used in a while (like Docker). 
+I enjoyed this little challenge. It got me thinking about different parts of the development lifecycle and gave me the 
+opportunity to practice some skills I haven't used in a while (like Docker). 
 
+Towards the end of the challenge, I was questioning the usefulness of two separate APIs for recipes and scheduling. 
+For the sake of the challenge it makes sense but for production code I'd recommend moving the scheduling logic 
+into a separate controller inside the RecipeAPI. This could save a lot of code, allow us to easily 
+share data models, and reduce the amount of data send over the network.
+
+I'm looking forward to talking to you about my code.

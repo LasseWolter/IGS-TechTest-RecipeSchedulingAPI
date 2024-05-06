@@ -6,6 +6,10 @@ This document outlines the steps I've taken to come up with/develop my solution.
   * could make a case for using separate forms to send less data over the wire
     * having a single model allows for easy and fast development for now. I would revisit this for produdction code 
 
+
+* fetching the recipe list on every request is very inefficient. 
+  * you'd probably want to cache this and then only update this every once in a while 
+
 # Steps taken 
 * create empty git repo, add README and .gitignore
   - added `appsettings.Development.json` to .gitignore

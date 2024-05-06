@@ -6,7 +6,7 @@ Accept: application/json
 ###
 
 # Send post request with JSON body defining a list of requests
-POST {{RecipeSchedulingAPI_HostAddress}}/api/v1/schedule
+POST {{RecipeSchedulingAPI_HostAddress}}/api/v1/schedule/mutiple
 Content-Type: application/json
 
 {
@@ -27,4 +27,17 @@ Content-Type: application/json
       "startDate": "2030-01-01T23:45:00.0000000Z"
     }
   ]
+}
+
+###
+
+
+# Send post request with JSON body defining a single request
+POST {{RecipeSchedulingAPI_HostAddress}}/api/v1/schedule/single
+Content-Type: application/json
+
+{
+  "trayNumber": 1,
+  "recipeName": "Basil",
+  "startDate": "2022-01-24T12:30:00.0000000Z"
 }

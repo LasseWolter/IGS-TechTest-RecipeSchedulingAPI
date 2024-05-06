@@ -1,5 +1,15 @@
 # IGS Tech Test - Scheduling API
 
+## Table of Contents
+1. [Objective](#objective)
+2. [How to run the code](#how-to-run-the-code)
+3. [Notes on my code](#how-to-run-the-code)
+    - [Initial Thoughts](#initial-thoughts)
+    - [Code Comments](#code-comments) 
+    - [Design Decisions](#design-decisions)
+    - [Outstanding Issues](#outstanding-issues)
+    - [Making the Code Production-Ready](#making-the-code-production-ready)
+4. [Final Thoughts](#final-thoughts)
 
 ## Objective
 
@@ -63,7 +73,7 @@ git clone --recurse-submodules https://github.com/LasseWolter/IGS-TechTest-Recip
     * I could possibly add an extra feature where I can process a single input/not just a list
 
 
-### Code comments 
+### Code Comments
 I added `REMARK:` code comments throughout the whole codebase. 
 These comments document things like: 
 * Why did I make a certain design decision?
@@ -72,7 +82,7 @@ These comments document things like:
 
 In addition, the [following section](#design-decisions) outlines some design decisions that I wanted to highlight. 
 
-### Design decisions
+### Design Decisions
 1. I decided to use API-Controllers instead of minimal API
     * For this simple example a minimal API would have been sufficient
     * However, I like having the code separate
@@ -123,7 +133,7 @@ I'm happy to answer any other questions during the next interview.
         - I'd advise against using the `COPY . .` command and explicitly state files you want to copy for a production app
 - API doesn't return a message to state that dates are invalid 
 
-### Changes required for making this code production-ready
+### Making the Code Production-Ready
 The main issue is lack of feedback. All the code you see was solely written by me without discussing anything with other engineers or product.
 This approach can easily lead to a final product that doesn't meet the requirements.
 
@@ -136,7 +146,7 @@ That put aside, here are a few improvements on code level:
   - for other parts of the scheduling logic
 - factor out the HttpService and add caching
 
-## Final thoughts 
+## Final Thoughts
 I enjoyed this little challenge. It got me thinking about different parts of the development lifecycle and gave me the 
 opportunity to practice some skills I haven't used in a while (like Docker). 
 

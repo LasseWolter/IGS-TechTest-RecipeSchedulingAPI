@@ -126,6 +126,7 @@ The main issue is lack of feedback. All the code you see was solely written by m
 This approach can easily lead to a final product that doesn't meet the requirements.
 
 That put aside, here are a few improvements on code level: 
+- enable HTTPS
 - add proper monitoring 
 - add more unit tests
   - for JSON parsing 
